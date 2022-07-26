@@ -7,7 +7,7 @@ include config.mk
 SRC = st.c x.c
 OBJ = $(SRC:.c=.o)
 
-all: options st
+all: options st package
 
 options:
 	@echo st build options:
@@ -30,7 +30,7 @@ st: $(OBJ)
 	$(CC) -o $@ $(OBJ) $(STLDFLAGS)
 
 clean:
-	rm -f st $(OBJ) st-$(VERSION).tar.gz
+	rm -rf st $(OBJ) st-$(VERSION).tar.gz config.h src/ pkg/ *.pkg.tar.zst
 
 dist: clean
 	mkdir -p st-$(VERSION)
@@ -39,6 +39,9 @@ dist: clean
 		st-$(VERSION)
 	tar -cf - st-$(VERSION) | gzip > st-$(VERSION).tar.gz
 	rm -rf st-$(VERSION)
+
+package:
+	makepkg
 
 install: st
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -57,4 +60,4 @@ uninstall:
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/st.1
 	rm -f $(DESTDIR)$(PREFIX)/share/applications/st.desktop
 
-.PHONY: all options clean dist install uninstall
+.PHONY: all options clean dist install uninstall package

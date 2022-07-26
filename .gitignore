@@ -1,0 +1,6 @@
+config.h
+st
+*.o
+*.pkg.tar.zst
+src/
+pkg/
